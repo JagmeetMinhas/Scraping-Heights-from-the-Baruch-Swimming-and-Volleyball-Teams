@@ -1,7 +1,10 @@
+#Import libraries
 import requests
 from bs4 import BeautifulSoup
 
+#Predefine scraping functions
 def scrapeWebpage(url, teamName):
+    #Make GET request, parse HTML, and find table data
     webpage = requests.get(url)
     
     sourceCode = BeautifulSoup(webpage.content, 'html.parser')
@@ -12,6 +15,7 @@ def scrapeWebpage(url, teamName):
     for row in tableRows:
         height = row.find_all("td", attrs = {"class":"height"})
         if len(height) != 0:
+            #Convert the height from a feet and inches format to an inches format
             heights.append((int(height[0].get_text()[0]) * 12) + int(height[0].get_text()[2:]))
 
     averageHeight = sum(heights)/len(heights)
